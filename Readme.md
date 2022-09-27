@@ -12,7 +12,7 @@ The suggested way to use this script is by running it inside a container:
 - Clone the repository locally
 - Open a terminal and execute:
   - `docker run -ti -v $(pwd):/root python:latest /bin/bash`
-- Once inside the container run:
+- Once inside the container go to the root folder and run:
   - `pip install -r requirements.txt`
 - Then you can execute the script (see section below)
 

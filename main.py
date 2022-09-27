@@ -6,7 +6,7 @@ from alive_progress import alive_bar
 from jenkins.jenkins_api import JenkinsAPI
 from jenkins.plugin import Plugin
 
-def parse():
+def parse() -> list:
 
     class Password(argparse.Action):
         def __call__(self, parser, namespace, values, option_string):
@@ -32,7 +32,7 @@ def parse():
     return args.download, args.destination_file, args.jenkins_host, args.jenkins_port, args.jenkins_password, args.jenkins_user, args.jenkins_version, args.source_file
 
 
-def get_plugins_from_file(file_path):
+def get_plugins_from_file(file_path) -> list:
     plugins_list = []
     data_separator = ";"
     f = open(file_path, "r")
@@ -44,7 +44,7 @@ def get_plugins_from_file(file_path):
     return plugins_list
 
 
-def process_plugins(plugins_list, jenkins_version):
+def process_plugins(plugins_list, jenkins_version) -> dict:
     plugins_data = {}
     with alive_bar(len(plugins_list), dual_line=True, title="API requests") as bar:
         for plugin_name in plugins_list:
@@ -55,7 +55,7 @@ def process_plugins(plugins_list, jenkins_version):
     return plugins_data
 
 
-def write_file(destination_file, plugins_data, jenkins_version):
+def write_file(destination_file, plugins_data, jenkins_version) -> None:
     f = open(destination_file, "w")
     for _, plugin_object in plugins_data.items():
         if plugin_object.latest_compatible_version:

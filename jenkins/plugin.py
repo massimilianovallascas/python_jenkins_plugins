@@ -17,7 +17,7 @@ class Plugin:
         self.history = self._get_plugin_history()
         self._get_versions_data()
 
-    def _get_plugin_history(self):
+    def _get_plugin_history(self) -> list:
         history = []
 
         response = requests.get(self.url)
@@ -29,7 +29,7 @@ class Plugin:
 
         return history
 
-    def _get_versions_data(self):
+    def _get_versions_data(self) -> None:
         self.latest_version = self.history[0][0]
         for plugin_version in self.history:
             if version.parse(self.jenkins_version) >= version.parse(plugin_version[1]):
