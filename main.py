@@ -6,6 +6,7 @@ from alive_progress import alive_bar
 from jenkins.jenkins_api import JenkinsAPI
 from jenkins.plugin import Plugin
 
+
 def parse() -> list:
 
     class Password(argparse.Action):

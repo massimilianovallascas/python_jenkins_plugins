@@ -2,6 +2,7 @@ import unittest
 
 from jenkins.plugin import *
 
+
 class TestJenkinsPlugin(unittest.TestCase):
 
     def setUp(self) -> None:

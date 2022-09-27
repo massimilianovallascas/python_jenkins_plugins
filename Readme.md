@@ -29,4 +29,4 @@ If you don't want to use a container you can run the script in your local enviro
 
 ## Test
 
-- python -m unittest
+- python3 -m unittest

@@ -1,7 +1,7 @@
 import unittest
 
-from jenkins.plugin import *
 from main import *
+
 
 class TestMain(unittest.TestCase):
 
