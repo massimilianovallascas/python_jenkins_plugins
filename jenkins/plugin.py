@@ -48,7 +48,7 @@ class Plugin:
         for plugin_version in self.history:
             if version.parse(self.jenkins_version) >= version.parse(plugin_version[1]):
                 self.latest_compatible_version = plugin_version[0]
-                self.download_url = f"{self.base_url}/{self.name}/{plugin_version}/{self.name}.hpi"
+                self.download_url = f"{self.base_url}/{self.name}/{plugin_version[0]}/{self.name}.hpi"
                 break
 
     def __repr__(self) -> str:

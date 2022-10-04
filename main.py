@@ -1,6 +1,7 @@
 import argparse
 import getpass
 import os
+import shutil
 import sys
 
 from alive_progress import alive_bar
@@ -77,7 +78,7 @@ def main() -> bool:
 
     if download:
         if os.path.exists(download_path):
-            os.rmdir(download_path)
+            shutil.rmtree(download_path)
 
     if get_list:
         jenkins_api = JenkinsAPI(source_file, jenkins_host, jenkins_port, jenkins_user, jenkins_password)
