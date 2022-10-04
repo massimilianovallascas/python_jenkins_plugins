@@ -67,7 +67,7 @@ def write_file(destination_file, plugins_data, jenkins_version) -> None:
     f = open(destination_file, "w")
     for _, plugin_object in plugins_data.items():
         if plugin_object.latest_compatible_version:
-            f.write(f"{plugin_object.name},{plugin_object.latest_compatible_version}\n")
+            f.write(f"{plugin_object.name}:{plugin_object.latest_compatible_version}\n")
         else:
             print(f"Plugin '{plugin_object.name}' is not compatible with Jenkins version {jenkins_version}")
     f.close
