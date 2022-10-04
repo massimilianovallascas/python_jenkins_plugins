@@ -54,7 +54,7 @@ def get_plugins_from_file(file_path) -> list:
 
 def process_plugins(plugins_list, jenkins_version, download, download_path) -> dict:
     plugins_data = {}
-    with alive_bar(len(plugins_list), dual_line=True, title="Processing plugins") as bar:
+    with alive_bar(len(plugins_list), title="Processing plugins") as bar:
         for plugin_name in plugins_list:
             bar.text = f"{plugin_name}"
             plugins_data[plugin_name] = Plugin(plugin_name, jenkins_version, download, download_path)
