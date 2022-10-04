@@ -1,5 +1,6 @@
 import argparse
 import getpass
+import os
 import sys
 
 from alive_progress import alive_bar
@@ -19,6 +20,7 @@ def parse() -> list:
     parser = argparse.ArgumentParser(description='Get Jenkins plugin latest compatible version.')
 
     parser.add_argument("-d", "--download", action="store_true", required=False, help="Download the plugins from the repository")
+    parser.add_argument("-dp", "--download-path", default="/tmp/jenkins/updated_plugins", required=False, help="Plugins download path")
     parser.add_argument("-g", "--get-list", action="store_true", required=False, help="Get plugins list from Jenkins API")
     parser.add_argument("-df", "--destination-file", default="plugins_compatibility.csv", required=False, help="Source file")
     parser.add_argument("-jh", "--jenkins-host", required="-g" in sys.argv or "--get-list" in sys.argv, type=str, help="Jenkins host")
@@ -31,7 +33,7 @@ def parse() -> list:
     parser.add_argument("--version", action="version", version="%(prog)s 1.0")
     args = parser.parse_args()
     
-    return args.download, args.get_list, args.destination_file, args.jenkins_host, args.jenkins_port, args.jenkins_password, args.jenkins_user, args.jenkins_version, args.source_file
+    return args.download, args.download_path, args.get_list, args.destination_file, args.jenkins_host, args.jenkins_port, args.jenkins_password, args.jenkins_user, args.jenkins_version, args.source_file
 
 
 def get_plugins_from_file(file_path) -> list:
@@ -49,12 +51,12 @@ def get_plugins_from_file(file_path) -> list:
     return plugins_list
 
 
-def process_plugins(plugins_list, jenkins_version, download) -> dict:
+def process_plugins(plugins_list, jenkins_version, download, download_path) -> dict:
     plugins_data = {}
     with alive_bar(len(plugins_list), dual_line=True, title="API requests") as bar:
         for plugin_name in plugins_list:
             bar.text = f"Processing {plugin_name}"
-            plugins_data[plugin_name] = Plugin(plugin_name, jenkins_version, download)
+            plugins_data[plugin_name] = Plugin(plugin_name, jenkins_version, download, download_path)
             bar()
 
     return plugins_data
@@ -71,14 +73,18 @@ def write_file(destination_file, plugins_data, jenkins_version) -> None:
 
 
 def main() -> bool:
-    download, get_list, destination_file, jenkins_host, jenkins_port, jenkins_password, jenkins_user, jenkins_version, source_file = parse()
-    
+    download, download_path, get_list, destination_file, jenkins_host, jenkins_port, jenkins_password, jenkins_user, jenkins_version, source_file = parse()
+
+    if download:
+        if os.path.isdir(download_path):
+            os.rmdir(download_path)
+
     if get_list:
         jenkins_api = JenkinsAPI(source_file, jenkins_host, jenkins_port, jenkins_user, jenkins_password)
         jenkins_api.get_plugins()
 
     plugins_list = get_plugins_from_file(source_file)
-    plugins_data = process_plugins(plugins_list, jenkins_version, download)
+    plugins_data = process_plugins(plugins_list, jenkins_version, download, download_path)
     write_file(destination_file, plugins_data, jenkins_version)
     
     return True

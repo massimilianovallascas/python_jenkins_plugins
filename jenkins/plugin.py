@@ -1,4 +1,3 @@
-import datetime
 import os
 import requests
 
@@ -8,10 +7,10 @@ from packaging import version
 
 class Plugin:
 
-    def __init__(self, name, jenkins_version, download=False) -> None:
+    def __init__(self, name, jenkins_version, download=False, download_path="/tmp/jenkins/updated_plugins") -> None:
         self.base_url = "https://updates.jenkins.io/download/plugins"
         self.download = download
-        self.download_path = f""
+        self.download_path = download_path
         self.download_url = f""
         self.jenkins_version = jenkins_version
         self.latest_compatible_version = None
@@ -26,12 +25,11 @@ class Plugin:
             self._download()
 
     def _download(self) -> None:
-        now = datetime.datetime.today().strftime('%Y%m%d')
-        if not os.path.isdir(now):
-            os.mkdir(now)
+        if not os.path.isdir(self.download_path):
+            os.mkdir(self.download_path)
 
         response = requests.get(self.download_url, allow_redirects=True)
-        open(f"{now}/{self.name}.hpi", 'wb').write(response.content)
+        open(f"{self.download_path}/{self.name}.hpi", 'wb').write(response.content)
 
     def _get_plugin_history(self) -> list:
         history = []
