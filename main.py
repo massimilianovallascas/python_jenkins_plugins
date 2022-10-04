@@ -76,7 +76,7 @@ def main() -> bool:
     download, download_path, get_list, destination_file, jenkins_host, jenkins_port, jenkins_password, jenkins_user, jenkins_version, source_file = parse()
 
     if download:
-        if os.path.isdir(download_path):
+        if os.path.exists(download_path):
             os.rmdir(download_path)
 
     if get_list:

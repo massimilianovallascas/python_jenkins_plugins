@@ -25,8 +25,8 @@ class Plugin:
             self._download()
 
     def _download(self) -> None:
-        if not os.path.isdir(self.download_path):
-            os.mkdir(self.download_path)
+        if not os.path.exists(self.download_path):
+            os.makedirs(self.download_path)
 
         response = requests.get(self.download_url, allow_redirects=True)
         open(f"{self.download_path}/{self.name}.hpi", 'wb').write(response.content)
