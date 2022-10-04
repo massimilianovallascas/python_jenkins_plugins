@@ -20,10 +20,10 @@ If you don't want to use a container you can run the script in your local enviro
 
 ## Usage
 
-- Simple run with a plugin_list.csv already downloaded
+- Simple run with a plugin_list.csv already created
   - `python3 main.py -jv 1.580.1`
-- Simple run with download
-  - `python3 main.py -d -jh localhost -jusr admin -jpwd -jv 1.580.1`
+- Simple run getting the list from the local server
+  - `python3 main.py -g -jh localhost -jusr admin -jpwd -jv 1.580.1`
 - Get usage message
   - `python3 main.py`
 
