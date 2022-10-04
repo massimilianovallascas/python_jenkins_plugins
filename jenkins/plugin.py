@@ -27,10 +27,8 @@ class Plugin:
 
     def _download(self) -> None:
         now = datetime.datetime.today().strftime('%Y%m%d')
-        if os.path.isdir(now):
-            os.rmdir(now)
-
-        os.mkdir(now)
+        if not os.path.isdir(now):
+            os.mkdir(now)
 
         response = requests.get(self.download_url, allow_redirects=True)
         open(f"{now}/{self.name}.hpi", 'wb').write(response.content)
